@@ -29,4 +29,5 @@ public class User {
     @JsonManagedReference
     @OrderBy("createdAt DESC")
     private List<Post> posts = new ArrayList<>();
+
 }
