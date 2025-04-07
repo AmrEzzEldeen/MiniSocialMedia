@@ -18,11 +18,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true, nullable = false)
-    @NotBlank
+    @NotBlank(message = "Username is required")
     private String username;
     @Column(nullable = false)
     @NotBlank(message = "Password is required")
-    @JsonIgnore
     private String password;
     private String bio;
     private String profilePicture;

@@ -1,6 +1,8 @@
 package com.miniSocialMedia.miniSocialMedia.config;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,6 +25,8 @@ public class SecurityConfig {
 
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private static final Logger logger = LoggerFactory.getLogger(RequestLoggingFilter.class);
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,6 +37,7 @@ public class SecurityConfig {
                         // Public endpoints
                         .requestMatchers(HttpMethod.GET, "/posts", "/posts/**").permitAll() // Allow unauthenticated access to GET /posts and GET /posts/{id}
                         .requestMatchers(HttpMethod.POST, "/login").permitAll() // Allow unauthenticated access to POST /login
+                        .requestMatchers(HttpMethod.POST,  "/users/signup").permitAll() // Allow unauthenticated access to POST /login
                         // Secured endpoints
                         .requestMatchers(HttpMethod.POST, "/posts").authenticated() // Require authentication for POST /posts
                         .requestMatchers(HttpMethod.PUT, "/posts/**").authenticated() // Require authentication for PUT /posts/{id}
@@ -48,7 +54,8 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        logger.info("Using BCryptPasswordEncoder for hashing passwords");
+        return new BCryptPasswordEncoder(12);
     }
 
     @Bean
