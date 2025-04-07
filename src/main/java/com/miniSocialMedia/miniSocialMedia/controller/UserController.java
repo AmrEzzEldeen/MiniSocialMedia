@@ -1,5 +1,6 @@
 package com.miniSocialMedia.miniSocialMedia.controller;
 
+import com.miniSocialMedia.miniSocialMedia.dto.UserDto;
 import com.miniSocialMedia.miniSocialMedia.models.Post;
 import com.miniSocialMedia.miniSocialMedia.models.User;
 import com.miniSocialMedia.miniSocialMedia.service.PostService;
@@ -29,7 +30,7 @@ public class UserController {
 
 
     @GetMapping({"", "/"})
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 

@@ -21,8 +21,8 @@ public class JwtUtil {
     // Generate a JWT with a 30-day expiration
     public String generateToken(String username) {
         Instant now = Instant.now();
-//        Instant expiration = now.plus(30, ChronoUnit.DAYS); // Token expires in 30 days
-        Instant expiration = now.plus(1, ChronoUnit.MINUTES); // Token expires in 1 minute
+        Instant expiration = now.plus(1, ChronoUnit.DAYS); // Token expires in 30 days
+//        Instant expiration = now.plus(1, ChronoUnit.MINUTES); // Token expires in 1 minute
         byte[] keyBytes = key.getEncoded();
         String base64Key = Base64.getEncoder().encodeToString(keyBytes);
         System.out.println("THE KEY (Base64): " + base64Key);
