@@ -13,5 +13,5 @@ public class UserDto {
     private String username;
     private String bio;
     private String profilePicture;
-    private List<Post> posts = new ArrayList<>();
+//    private List<Post> posts = new ArrayList<>();
 }

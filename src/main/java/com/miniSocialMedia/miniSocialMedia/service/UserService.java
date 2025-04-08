@@ -34,8 +34,8 @@ public class UserService {
         dto.setProfilePicture(user.getProfilePicture());
 
         // Map the posts (assuming Post is the same in both User and UserDto for now)
-        List<Post> posts = user.getPosts() != null ? new ArrayList<>(user.getPosts()) : new ArrayList<>();
-        dto.setPosts(posts);
+//        List<Post> posts = user.getPosts() != null ? new ArrayList<>(user.getPosts()) : new ArrayList<>();
+//        dto.setPosts(posts);
 
         return dto;
     }
@@ -62,12 +62,13 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public User getUserById(Long userId) {
+    public UserDto getUserById(Long userId) {
         if (userId == null) {
             throw new IllegalArgumentException("User ID cannot be null");
         }
-        return userRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with ID " + userId + " does not exist"));
+        return toUserDto(user);
     }
 }
 
