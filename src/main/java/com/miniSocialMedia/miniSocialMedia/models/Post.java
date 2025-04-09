@@ -27,6 +27,11 @@ public class Post {
     private LocalDateTime createdAt;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
+    @Column(nullable = false, columnDefinition = "integer default 0")
+    private Integer likes = 0;
+    @Column(nullable = false, columnDefinition = "integer default 0")
+    private Integer dislikes = 0;
+
 
     @PrePersist
     private void onCreate() {

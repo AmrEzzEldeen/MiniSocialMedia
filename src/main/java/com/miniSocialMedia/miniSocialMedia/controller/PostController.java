@@ -1,6 +1,9 @@
 package com.miniSocialMedia.miniSocialMedia.controller;
 
 import com.miniSocialMedia.miniSocialMedia.dto.PostDTO;
+import com.miniSocialMedia.miniSocialMedia.repository.LikeRepository;
+import com.miniSocialMedia.miniSocialMedia.repository.PostRepository;
+import com.miniSocialMedia.miniSocialMedia.repository.UserRepository;
 import com.miniSocialMedia.miniSocialMedia.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,9 @@ import java.util.List;
 public class PostController {
     private static final Logger logger = LoggerFactory.getLogger(PostController.class);
     private final PostService postService;
+    private final LikeRepository likeRepository;
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PostDTO> updatePost(
@@ -68,4 +74,24 @@ public class PostController {
         Pageable pageable = PageRequest.of(page, size, sorting);
         return ResponseEntity.ok(postService.getAllPosts(pageable));
     }
+
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<String> likePost(@PathVariable Long postId, @RequestParam Long userId) {
+        return ResponseEntity.ok(postService.like(postId, userId));
+    }
+    @PostMapping("/{postId}/dislike")
+    public ResponseEntity<String> dislikePost(@PathVariable Long postId, @RequestParam Long userId) {
+        return ResponseEntity.ok(postService.dislike(postId, userId));
+    }
+
+    @DeleteMapping("/{postId}/like")
+    public ResponseEntity<String> unlikePost(@PathVariable Long postId, @RequestParam Long userId) {
+        return ResponseEntity.ok(postService.unlikePost(postId, userId));
+    }
+
+    @DeleteMapping("/{postId}/dislike")
+    public ResponseEntity<String> undoDislike(@PathVariable Long postId, @RequestParam Long userId) {
+        return ResponseEntity.ok(postService.undoDislike(postId, userId));
+    }
+
 }

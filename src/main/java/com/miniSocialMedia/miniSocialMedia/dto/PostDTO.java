@@ -10,6 +10,8 @@ import java.util.List;
 public class PostDTO {
     private Long id;
     private String content;
+    private Integer likes;
+    private Integer dislikes;
     private LocalDateTime createdAt;
     private UserDTO user;
     private List<Image> images;
